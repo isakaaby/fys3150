@@ -5,7 +5,11 @@
 using namespace std;
 
 double f(double x); //We declare the function here, but specify it at the bottom.
+<<<<<<< HEAD
 double u(double x);  //analytical solution
+=======
+double u(double x); //analytical solution to poissons equation
+>>>>>>> 0985e6459eb0b152e36e1e3608130e3b1e3c55fe
 
 int main(int argc, char const *argv[]) {
   //Parameters
