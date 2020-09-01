@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-
-=======
->>>>>>> ae3f8d2956b26d467950c061cca4eef1d6fc5dd3
 #ifndef project1_HPP
 #define project1_HPP
 
@@ -15,8 +11,8 @@ private:
 public:
   void Initialize(double a, double b, int N, double f(double x));     //Initialize the parameters m_a, m_b  N
   void set_matrix_elements(double ai, double bi, double ci);   //Setting matrix elements
-  void forward_sub(double f(double x));         //Forward substitution
-  void backward_sub(double f(double x));       //Backward substitution
+  void forward_sub();         //Forward substitution
+  void backward_sub();       //Backward substitution
   void Print(double u(double x));
 };
 

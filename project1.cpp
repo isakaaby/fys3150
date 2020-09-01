@@ -28,14 +28,14 @@ void Project1::set_matrix_elements(double ai, double bi, double ci){
   }
 }
 
-void Project1::forward_sub(double f(double x)){
+void Project1::forward_sub(){
   for (int i = 1; i < m_N; i++){
     m_b[i] = m_b[i] - (m_a[i-1]*m_c[i-1])/m_b[i-1];
     m_g[i] = m_g[i] - (m_g[i-1]*m_c[i-1])/m_b[i-1];
   }
 }
 
-void Project1::backward_sub(double f(double x)){
+void Project1::backward_sub(){
   m_v[m_N-1] = m_g[m_N-1]/m_b[m_N-1];
   for (int i = m_N-2; i > 0; i--){
     m_v[i] = (m_g[i] - m_c[i]*m_v[i+1])/m_b[i];
