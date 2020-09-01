@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> ae3f8d2956b26d467950c061cca4eef1d6fc5dd3
 #ifndef project1_HPP
 #define project1_HPP
 
