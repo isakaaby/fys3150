@@ -26,7 +26,11 @@ int main(int argc, char const *argv[]) {
   Solver.set_matrix_elements(ai, bi, ci);
   Solver.forward_sub();
   Solver.backward_sub();
+<<<<<<< HEAD
   Solver.Print(u);
+=======
+  Solver.write_to_file(u);
+>>>>>>> 7400582321905d14a00ad90df346933ea44315fb
 
   return 0;   //Don't worry about this one, but you should always let it stay here at the bottom of the main function.
 }

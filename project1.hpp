@@ -13,7 +13,11 @@ public:
   void set_matrix_elements(double ai, double bi, double ci);   //Setting matrix elements
   void forward_sub();         //Forward substitution
   void backward_sub();       //Backward substitution
+<<<<<<< HEAD
   void Print(double u(double x));
+=======
+  double write_to_file(double u(double x));
+>>>>>>> 7400582321905d14a00ad90df346933ea44315fb
 };
 
 #endif
