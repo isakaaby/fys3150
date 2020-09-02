@@ -20,9 +20,9 @@ int main(int argc, char const *argv[]) {
   Project1 Solver;    //Create the solver of type Trapezoidal
   Solver.Initialize(x0, xn, N, f);
   Solver.set_matrix_elements(ai, bi, ci);
-  Solver.forward_sub(f);
-  Solver.backward_sub(f);
-  Solver.Print(u);
+  Solver.forward_sub();
+  Solver.backward_sub();
+  Solver.write_to_file(u);
 
   return 0;   //Don't worry about this one, but you should always let it stay here at the bottom of the main function.
 }
