@@ -14,10 +14,16 @@ public:
   void forward_sub();         //Forward substitution
   void backward_sub();       //Backward substitution
 <<<<<<< HEAD
+<<<<<<< HEAD
   void Print(double u(double x));
 =======
   double write_to_file(double u(double x));
 >>>>>>> 7400582321905d14a00ad90df346933ea44315fb
+=======
+  double write_solutions_to_file(double u(double x));
+  double eps(double u(double x));
+  double write_eps_to_file(double *eps, int *n, int N_power);
+>>>>>>> 52dbb26ff0fb93d4655f067d97199bd36bdfa353
 };
 
 #endif
