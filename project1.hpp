@@ -1,4 +1,3 @@
-
 #ifndef project1_HPP
 #define project1_HPP
 
@@ -14,7 +13,9 @@ public:
   void set_matrix_elements(double ai, double bi, double ci);   //Setting matrix elements
   void forward_sub();         //Forward substitution
   void backward_sub();       //Backward substitution
-  double write_to_file(double u(double x));
+  double write_solutions_to_file(double u(double x));
+  double eps(double u(double x));
+  double write_eps_to_file(double *eps, int *n, int N_power);
 };
 
 #endif

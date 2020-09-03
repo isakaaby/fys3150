@@ -22,7 +22,26 @@ int main(int argc, char const *argv[]) {
   Solver.set_matrix_elements(ai, bi, ci);
   Solver.forward_sub();
   Solver.backward_sub();
-  Solver.write_to_file(u);
+  Solver.write_solutions_to_file(u);
+
+  int n0 = 10;
+  int N_power = 7;
+  double *eps = new double[N_power];
+  int *n = new int[N_power];
+
+  //try for different n's
+  for (int i = 0; i < N_power+1; i++){
+    n[i] = pow(10,i)*n0;
+    Solver.Initialize(x0, xn, n[i], f);
+    Solver.set_matrix_elements(ai, bi, ci);
+    Solver.forward_sub();
+    Solver.backward_sub();
+    eps[i] = Solver.eps(u);
+
+  }
+  Solver.write_eps_to_file(eps, n, N_power);
+
+
 
   return 0;   //Don't worry about this one, but you should always let it stay here at the bottom of the main function.
 }
