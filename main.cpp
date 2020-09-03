@@ -5,11 +5,9 @@
 using namespace std;
 
 double f(double x); //We declare the function here, but specify it at the bottom.
-<<<<<<< HEAD
+
 double u(double x);  //analytical solution
-=======
 double u(double x); //analytical solution to poissons equation
->>>>>>> 0985e6459eb0b152e36e1e3608130e3b1e3c55fe
 
 int main(int argc, char const *argv[]) {
   //Parameters
@@ -26,13 +24,8 @@ int main(int argc, char const *argv[]) {
   Solver.set_matrix_elements(ai, bi, ci);
   Solver.forward_sub();
   Solver.backward_sub();
-<<<<<<< HEAD
-<<<<<<< HEAD
   Solver.Print(u);
-=======
   Solver.write_to_file(u);
->>>>>>> 7400582321905d14a00ad90df346933ea44315fb
-=======
   Solver.write_solutions_to_file(u);
 
   int n0 = 10;
@@ -52,8 +45,6 @@ int main(int argc, char const *argv[]) {
   }
   Solver.write_eps_to_file(eps, n, N_power);
 
-
->>>>>>> 52dbb26ff0fb93d4655f067d97199bd36bdfa353
 
   return 0;   //Don't worry about this one, but you should always let it stay here at the bottom of the main function.
 }
