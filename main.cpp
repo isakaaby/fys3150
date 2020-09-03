@@ -2,6 +2,7 @@
 #include <iostream>     //Need it to print stuff
 #include <cmath>        //Need math functions
 
+//made some changes
 using namespace std;
 
 double f(double x); //We declare the function here, but specify it at the bottom.
