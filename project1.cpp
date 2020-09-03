@@ -5,9 +5,10 @@
 
 using namespace std;
 
-void Project1::Initialize(double x0, double xn, int N, double f(double x)){
+void Project1::gen_Initialize(double x0, double xn, int N, double f(double x)){
+  cout << "er i gen initialize" << "\n";
   m_N = N;      //Number of integration points
-  m_h = (xn - x0)/m_N;   // stepsize h
+  m_h = ((double)(xn - x0)/(m_N+2));   // stepsize h
   m_a = new double[m_N];
   m_b = new double[m_N];
   m_c = new double[m_N];
@@ -15,9 +16,31 @@ void Project1::Initialize(double x0, double xn, int N, double f(double x)){
   m_g = new double[m_N];
   m_x = new double[m_N];
   double hh = m_h*m_h;
-  for (int i = 0; i < m_N+1; i++){
-    m_x[i] = x0 + i*m_h;
+  for (int i = 0; i < m_N; i++){
+    m_x[i] = x0 + (i+1)*m_h;
     m_g[i] = hh*f(m_x[i]);
+
+  }
+}
+
+void Project1::spes_Initialize(double x0, double xn, int N, double f(double x)){
+  cout << "er i spes initialize" << "\n";
+  m_N = N;      //Number of integration points
+  m_h = ((double)(xn - x0)/(m_N+2));   // stepsize
+  m_v = new double[m_N];
+  m_g = new double[m_N];
+  m_x = new double[m_N];
+  m_b = new double[m_N];
+  double hh = m_h*m_h;
+  for (int i = 0; i < m_N; i++){
+    m_x[i] = x0 + (i+1)*m_h;
+    m_g[i] = hh*f(m_x[i]);
+    cout << m_g[i] << "\n";
+  }
+  m_b[0] = 2;
+  for (int i = 1; i < m_N; i++){
+    m_b[i] = (double)(i+1)/i;
+    cout << m_b[i] << "\n";
   }
 }
 
@@ -29,20 +52,39 @@ void Project1::set_matrix_elements(double ai, double bi, double ci){
   }
 }
 
-void Project1::forward_sub(){
+void Project1::spes_forward_sub(){
+  //cout << "er i spes forward" << "\n";
   for (int i = 1; i < m_N; i++){
-    m_b[i] = m_b[i] - (m_a[i-1]*m_c[i-1])/m_b[i-1];
-    m_g[i] = m_g[i] - (m_g[i-1]*m_c[i-1])/m_b[i-1];
+    m_g[i] = m_g[i] + m_g[i-1]/m_b[i-1];
+    //cout << m_g[i] << "\n";
+
   }
 }
 
-void Project1::backward_sub(){
-  m_v[m_N] = 0;
+void Project1::spes_backward_sub(){
   m_v[m_N-1] = m_g[m_N-1]/m_b[m_N-1];
-  for (int i = m_N-2; i > 0; i--){
+  for (int i = m_N-2; i >= 0; i--){
+    m_v[i] = (m_g[i] + m_v[i+1])/m_b[i];
+  }
+}
+
+void Project1::gen_forward_sub(){
+  //cout << "er i gen forward" << "\n";
+  for (int i = 1; i < m_N; i++){
+    m_b[i] = m_b[i] - (m_a[i-1]*m_c[i-1])/m_b[i-1];
+    m_g[i] = m_g[i] - (m_g[i-1]*m_c[i-1])/m_b[i-1];
+    //cout << m_g[i] << "\n";
+
+  }
+}
+//9.86121e-05
+void Project1::gen_backward_sub(){
+  m_v[m_N-1] = m_g[m_N-1]/m_b[m_N-1];
+  for (int i = m_N-2; i >= 0; i--){
     m_v[i] = (m_g[i] - m_c[i]*m_v[i+1])/m_b[i];
   }
 }
+
 
 double Project1::write_solutions_to_file(double u(double x)){
  ofstream myfile1;
@@ -53,7 +95,6 @@ double Project1::write_solutions_to_file(double u(double x)){
    myfile1 << m_x[i] << " " << m_v[i] << " " << u(m_x[i]);
    myfile1 << "\n";
  }
- myfile1 << m_x[m_N] << " " << m_v[m_N] << " " << m_v[m_N];
  myfile1.close();
  return 0;
 }
