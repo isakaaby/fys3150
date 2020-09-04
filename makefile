@@ -5,3 +5,6 @@ compile:
 
 execute:
 	./main.out
+
+plot:
+	python3 read_file_plot.py
