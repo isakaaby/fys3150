@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-infile = open("poissons_verdier.txt", 'r')
+infile = open("solution.txt", 'r')
 N = int(infile.readline())
 x = [0]
 v = [0]
@@ -23,6 +23,7 @@ u = np.array(u)
 
 plt.plot(x,v,label = 'v (numerical)')
 plt.plot(x,u, label = 'u (analytical)')
+plt.title("Numerical and analytical solutions for N = %d" %(N))
 plt.xlabel('x')
 plt.ylabel('Numerical and analytical u(x)')
 plt.legend()
