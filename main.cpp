@@ -45,9 +45,9 @@ int main(int argc, char const *argv[]) { //our main function
     cout << "CPU time: " << cpu_time << "ms\n";
     int flops = 9*(N-1);      //calculating number of FLOPS for the general algorithm
     cout << "FLOPS:" << " " << flops << "\n";
-    cout << "Writing numerical solutions to file..."<< "\n";
+    cout << "Writing numerical solutions to file: solution.txt"<< "\n";
     Solver.write_solutions_to_file(u);    //writing numerical and analytical solutions to file
-    cout << "Type <<make plot>> in terminal to receive a plot of the numerical solutions along with the analytical solution "<< "\n";
+    cout << "Type <<make plot1>> in terminal to receive a plot of the numerical solutions along with the analytical solution "<< "\n";
   }
 
   //Solving task c), with the special algorithm
@@ -66,9 +66,9 @@ int main(int argc, char const *argv[]) { //our main function
     cout << "CPU time: " << cpu_time << "ms\n";
     int flops = 4*(N-1);     //calculating number of FLOPS for the special algorithm
     cout << "FLOPS:" << " " << flops << "\n";
-    cout << "Writing numerical solutions to file..."<< "\n";
+    cout << "Writing numerical solutions to file: solution.txt..."<< "\n";
     Solver.write_solutions_to_file(u);      //writing numerical and analytical solutions to file
-    cout << "Type <<make plot>> in terminal to receive a plot of the numerical solutions along with the analytical solution "<< "\n";
+    cout << "Type <<make plot1>> in terminal to receive a plot of the numerical solutions along with the analytical solution "<< "\n";
   }
 
   //Solving task d) with number of grid points from N=10 to N=10^7
@@ -77,7 +77,7 @@ int main(int argc, char const *argv[]) { //our main function
     double *eps = new double[N_power];     //allocating the relative errors
     int *n = new int[N_power];             //allocating the different number of grid points
     cout << "Solving task d) using the special algorithm..." << "\n";
-    cout << "Calculating relative error with number of grid points from N = 10 to N = 10^7..." << "\n";
+    cout << "Calculating relative error with number of grid points from N = 10 to N = 10^7" << "\n";
     clock_t start, finish;
     start = clock();
     for (int i = 0; i < N_power; i++){    //calculating the relative error for different numbers of grid points
@@ -90,7 +90,7 @@ int main(int argc, char const *argv[]) { //our main function
     finish = clock();
     double cpu_time = 1000.0 * (finish - start)/CLOCKS_PER_SEC;   //computing CPU time
     cout << "CPU time: " << cpu_time << "ms\n";
-    cout << "Writing the errors to file..." << "\n";
+    cout << "Writing the errors to file: error_solution.txt" << "\n";
     Solver.write_eps_to_file(eps, n, N_power);       //writing relative errors to file
   }
   //Solving task e)
@@ -117,8 +117,9 @@ int main(int argc, char const *argv[]) { //our main function
     finish = clock();
     cpu_time = 1000.0 * (finish - start)/CLOCKS_PER_SEC;   //computing CPU time
     cout << "CPU time for special algorithm: " << cpu_time << "ms\n";
-    cout << "Writing solutions to file..." << "\n";
+    cout << "Writing solutions to file: solution_LU.txt" << "\n";
     Solver.write_LUsol_to_file(w,u);
+    cout << "Type <<make plot2>> in terminal to receive a plot of the LU solutions along with the analytical solution "<< "\n";
   }
 
   return 0;   //Don't worry about this one, but you should always let it stay here at the bottom of the main function.
