@@ -96,11 +96,31 @@ void Project1::write_solutions_to_file(double u(double x)){
  myfile1.close();
 }
 
+void Project1::write_CPU_to_file(int *n, double *cpu_gen, double *cpu_spes, int N_power){
+  ofstream myfile2;
+  myfile2.open("CPU_comparison.txt");
+  for (int i = 0; i < N_power; i++){
+    myfile2 << n[i] << " " << cpu_gen[i] << " " << cpu_spes[i];
+    myfile2 << "\n";
+  }
+  myfile2.close();
+}
+
+void Project1::write_CPU_LU_to_file(int *n, double *cpu_gen, double *cpu_spes, double *cpu_lu, int N_power){
+  ofstream myfile3;
+  myfile3.open("CPU_LU_comparison.txt");
+  for (int i = 0; i < N_power; i++){
+    myfile3 << n[i] << " " << cpu_gen[i] << " " << cpu_spes[i] << " " << cpu_lu[i];
+    myfile3 << "\n";
+  }
+  myfile3.close();
+}
+
 //calculating the error of the numerical solution relative to the analytical solution
-double Project1::eps(double u(double x)){
+double Project1::epsilon(double u(double x)){
   double epsilon_max = 0;                   //giving a maximum relative error
   double epsilon;
-  for (int i = 0; i < m_N+1; i++){
+  for (int i = 0; i < m_N; i++){
     epsilon = abs((m_v[i] - u(m_x[i]))/u(m_x[i]));   //calculating the relative error
     if (epsilon > epsilon_max){
       epsilon_max = epsilon;      //setting new maximum relative error
@@ -112,13 +132,13 @@ double Project1::eps(double u(double x)){
 
 //writing the relative errors for different number of grid points to file
 void Project1::write_eps_to_file(double *eps, int *n, int N_power){
-  ofstream myfile2;
-  myfile2.open("error_solution.txt");
+  ofstream myfile4;
+  myfile4.open("error_solution.txt");
   for (int i = 0; i < N_power; i++){
-    myfile2 << n[i] << " " << eps[i];
-    myfile2 << "\n";
+    myfile4 << n[i] << " " << eps[i];
+    myfile4 << "\n";
   }
-  myfile2.close();
+  myfile4.close();
 }
 
 mat Project1::matrix_A(double ai, double bi, double ci, int N){
@@ -161,13 +181,13 @@ vec Project1::LU_decomp(mat A, vec g){
 }
 
 void Project1::write_LUsol_to_file(vec w, double u(double x)){
-  ofstream myfile3;
-  myfile3.open("solution_LU.txt");
-  myfile3 << m_N;
-  myfile3 << "\n";
+  ofstream myfile5;
+  myfile5.open("solution_LU.txt");
+  myfile5 << m_N;
+  myfile5 << "\n";
   for (int i = 0; i < m_N; i++){
-    myfile3 << m_x[i] << " " << w(i) << " " << m_v[i] << " " << u(m_x[i]);
-    myfile3 << "\n";
+    myfile5 << m_x[i] << " " << w(i) << " " << m_v[i] << " " << u(m_x[i]);
+    myfile5 << "\n";
   }
-  myfile3.close();
+  myfile5.close();
  }

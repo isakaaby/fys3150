@@ -22,10 +22,12 @@ int main(int argc, char const *argv[]) { //our main function
   Project1 Solver;
   int task;
   cout << "Press 1 to run task b) \n";
-  cout << "Press 2 to run task c) \n";          //asking whether to run task b),c),d) or e)
+  cout << "Press 2 to run task c) \n";
   cout << "Press 3 to run task d) \n";
   cout << "Press 4 to run task e) \n";
-  cout << "Enter task number:" << " ";
+  cout << "Press 5 to compare CPU time between special and general algorithm \n";
+  cout << "Press 6 to compare CPU time between LU decomposition and tridiagonal solver \n";
+  cout << "Enter number:" << " ";
   cin >> task;
 
   //Solving task b), with the general algorithm
@@ -50,7 +52,7 @@ int main(int argc, char const *argv[]) { //our main function
     cout << "Type <<make plot1>> in terminal to receive a plot of the numerical solutions along with the analytical solution "<< "\n";
   }
 
-  //Solving task c), with the special algorithm
+  //Solving task c) , with the special algorithm
   if (task==2){
     cout << "Number of grid points (N) = ";
     cin >> N;  //giving the number of grid points
@@ -85,7 +87,7 @@ int main(int argc, char const *argv[]) { //our main function
       Solver.spes_Initialize(x0, xn, n[i], f);
       Solver.spes_forward_sub();
       Solver.spes_backward_sub();
-      eps[i] = Solver.eps(u);
+      eps[i] = Solver.epsilon(u);
     }
     finish = clock();
     double cpu_time = 1000.0 * (finish - start)/CLOCKS_PER_SEC;   //computing CPU time
@@ -121,6 +123,78 @@ int main(int argc, char const *argv[]) { //our main function
     Solver.write_LUsol_to_file(w,u);
     cout << "Type <<make plot2>> in terminal to receive a plot of the LU solutions along with the analytical solution "<< "\n";
   }
+
+  //comparing CPU time between special and general algorithm
+  if (task==5){
+    cout << "Comparing CPU time for n = 10 to n = 10^6 grid points \n";
+    int N_power = 6;                       //the maximum power of N
+    double *cpu_gen = new double[N_power];     //allocating the relative errors
+    double *cpu_spes = new double[N_power];
+    int *n = new int[N_power];              //allocating the different number of grid points
+    for (int i = 0; i < N_power; i++){    //calculating the relative error for different numbers of grid points
+      clock_t start_gen, finish_gen;
+      clock_t start_spes, finish_spes;
+      n[i] = pow(10,i+1);
+      Solver.gen_Initialize(x0, xn, n[i], f);
+      Solver.set_matrix_elements(ai, bi, ci);    //setting the elements of the matrix manually
+      start_gen = clock();
+      Solver.gen_forward_sub();
+      Solver.gen_backward_sub();
+      finish_gen = clock();
+      cpu_gen[i] = 1000.0 * (finish_gen - start_gen)/CLOCKS_PER_SEC;   //computing general CPU time
+
+      Solver.spes_Initialize(x0, xn, n[i], f);
+      start_spes = clock();
+      Solver.spes_forward_sub();
+      Solver.spes_backward_sub();
+      finish_spes = clock();
+      cpu_spes[i] = 1000.0 * (finish_spes - start_spes)/CLOCKS_PER_SEC;   //computing general CPU time
+    }
+    cout << "Writing CPU times to file: CPU_comparison.txt" << "\n";
+    Solver.write_CPU_to_file(n, cpu_gen, cpu_spes, N_power);       //writing CPU times to file
+  }
+
+  //comparing CPU time between special algorithm, general algorithm and LU decomposition
+  if (task==6){
+    cout << "Comparing CPU time for n = 10, 100 and 1000 grid points \n";
+    int N_power = 3;                       //the maximum power of N
+    double *cpu_gen = new double[N_power];     //allocating the relative errors
+    double *cpu_spes = new double[N_power];
+    double *cpu_lu = new double[N_power];
+    int *n = new int[N_power];              //allocating the different number of grid points
+    for (int i = 0; i < N_power; i++){    //calculating the relative error for different numbers of grid points
+      clock_t start_gen, finish_gen;
+      clock_t start_spes, finish_spes;
+      clock_t start_lu, finish_lu;
+
+      n[i] = pow(10,i+1);
+      Solver.gen_Initialize(x0, xn, n[i], f);
+      Solver.set_matrix_elements(ai, bi, ci);    //setting the elements of the matrix manually
+      start_gen = clock();
+      Solver.gen_forward_sub();
+      Solver.gen_backward_sub();
+      finish_gen = clock();
+      cpu_gen[i] = 1000.0 * (finish_gen - start_gen)/CLOCKS_PER_SEC;   //computing general CPU time
+
+      Solver.spes_Initialize(x0, xn, n[i], f);
+      start_spes = clock();
+      Solver.spes_forward_sub();
+      Solver.spes_backward_sub();
+      finish_spes = clock();
+      cpu_spes[i] = 1000.0 * (finish_spes - start_spes)/CLOCKS_PER_SEC;   //computing general CPU time
+
+      mat A = Solver.matrix_A(ai,bi,ci,n[i]);
+      vec g = Solver.vec_g(x0, xn, n[i], f);
+      start_lu = clock();
+      vec w = Solver.LU_decomp(A,g);
+      finish_lu = clock();
+      cpu_lu[i] = 1000.0 * (finish_lu - start_lu)/CLOCKS_PER_SEC;   //computing CPU time
+    }
+    cout << "Writing CPU times to file: CPU_LU_comparison.txt" << "\n";
+    Solver.write_CPU_LU_to_file(n, cpu_gen, cpu_spes, cpu_lu, N_power);       //writing CPU times to file
+  }
+
+
 
   return 0;   //Don't worry about this one, but you should always let it stay here at the bottom of the main function.
 }
