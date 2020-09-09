@@ -10,7 +10,7 @@ using namespace std;
 //Initializing the system for the general algorithm
 void Project1::gen_Initialize(double x0, double xn, int N, double f(double x)){
   m_N = N;                              //Number of grid points
-  m_h = ((double)(xn - x0)/(m_N+2));    // steplength h
+  m_h = ((double)(xn - x0)/(m_N+1));    // steplength h
 
   m_a = new double[m_N];
   m_b = new double[m_N];      //allocating the matrix vectors a,b and c
@@ -29,7 +29,7 @@ void Project1::gen_Initialize(double x0, double xn, int N, double f(double x)){
 //Initializing the system for the special algorithm
 void Project1::spes_Initialize(double x0, double xn, int N, double f(double x)){
   m_N = N;                              //Number of grid points
-  m_h = ((double)(xn - x0)/(m_N+2));   // steplength
+  m_h = ((double)(xn - x0)/(m_N+1));   // steplength
 
   m_v = new double[m_N];     //allocating the numerical solutions v
   m_g = new double[m_N];     //allocating the right hand side of the equation g_i = h^2f_i
@@ -121,7 +121,7 @@ double Project1::epsilon(double u(double x)){
   double epsilon_max = 0;                   //giving a maximum relative error
   double epsilon;
   for (int i = 0; i < m_N; i++){
-    epsilon = abs((m_v[i] - u(m_x[i]))/u(m_x[i]));   //calculating the relative error
+    epsilon = fabs((m_v[i] - u(m_x[i]))/u(m_x[i]));   //calculating the relative error
     if (epsilon > epsilon_max){
       epsilon_max = epsilon;      //setting new maximum relative error
     }

@@ -194,8 +194,6 @@ int main(int argc, char const *argv[]) { //our main function
     Solver.write_CPU_LU_to_file(n, cpu_gen, cpu_spes, cpu_lu, N_power);       //writing CPU times to file
   }
 
-
-
   return 0;   //Don't worry about this one, but you should always let it stay here at the bottom of the main function.
 }
 
